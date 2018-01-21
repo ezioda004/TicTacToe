@@ -1,0 +1,23 @@
+body {
+    background: #121212;
+    margin: 0px;
+    color: white;
+}
+table {
+    margin: 200px auto;
+}
+td {
+    border: 2px solid white;
+    padding: 50px;
+}
+.corner {
+    border: none;
+}
+.side {
+    border-left: 0;
+    border-right: 0;
+}
+.top {
+    border-top: 0px;
+    border-bottom: 0px;
+}
