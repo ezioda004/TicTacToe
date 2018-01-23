@@ -79,117 +79,44 @@
 $(document).ready(function(){
     // console.log(Array.from(8));
     // var arr =  Array.from(Array(9).keys(), n => ++n);
-    // var origBoard = ["O",1 ,"X","X",4 ,"X", 6 ,"O","O"];
-    // var bestSpot = miniMax(origBoard, ai);
-    // console.log("index: " + bestSpot.index);
-    // var human = "O";
-    // var ai = "X";
-    // console.log();
-
-    // function emptyBlocks(board){
-    //     return board.filter(val => val != "X" && val != "O");
-    //         //    board.filter(s => s != "O" && s != "X");
-    // }
-
-    // function winningBoard(board, player){
-    //     if (
-    //         (board[0] == player && board[1] == player && board[2] == player) ||
-    //         (board[3] == player && board[4] == player && board[5] == player) ||
-    //         (board[6] == player && board[7] == player && board[8] == player) ||
-    //         (board[0] == player && board[3] == player && board[6] == player) ||
-    //         (board[1] == player && board[4] == player && board[7] == player) ||
-    //         (board[2] == player && board[5] == player && board[8] == player) ||
-    //         (board[0] == player && board[4] == player && board[8] == player) ||
-    //         (board[2] == player && board[4] == player && board[6] == player)
-    //     ){
-    //         return true;
-    //     }
-    //     else {
-    //         return false;
-    //     }
-    // }
-
-    // function miniMax(newBoard, player){
-    //     var availBlocks = emptyBlocks(newBoard);
-
-    //     if (winningBoard(newBoard, ai)){
-    //         return {score: 10};
-    //     }
-    //     else if (winningBoard(newBoard, human)){
-    //         return {score: -10};
-    //     }
-    //     else if (availBlocks.length === 0){
-    //         return {score: 0};
-    //     }
-        
-    //     var moves = [];
-
-    //     for (var i = 0; i < availBlocks.length; i++){
-    //         var move = {};
-    //         move.index = newBoard[availBlocks[i]]
-
-    //         newBoard[availBlocks[i]] = player;
-
-    //         if (player == ai){
-    //             var result = miniMax(newBoard, human);
-    //             move.score = result.score;
-    //         }
-    //         else {
-    //             var result = miniMax(newBoard, ai);
-    //             move.score = result.score;
-    //         }
-    //         newBoard[availBlocks[i]] = move.index;
-    //         moves.push(move);
-    //     }
-
-    //     var bestMove;
-    //     if(player === ai){
-    //       var bestScore = -10000;
-    //       for(var i = 0; i < moves.length; i++){
-    //         if(moves[i].score > bestScore){
-    //           bestScore = moves[i].score;
-    //           bestMove = i;
-    //         }
-    //       }
-    //     }else{
-      
-    //   // else loop over the moves and choose the move with the lowest score
-    //       var bestScore = 10000;
-    //       for(var i = 0; i < moves.length; i++){
-    //         if(moves[i].score < bestScore){
-    //           bestScore = moves[i].score;
-    //           bestMove = i;
-    //         }
-    //       }
-    //     }
-      
-    //   // return the chosen move (object) from the moves array
-    //     return moves[bestMove];
-
-    // }
-
-
-
-
-
-
-    var origBoard = ["O",1 ,"X","X",4 ,"X", 6 ,"O","O"];
-
-// human
-var human = "O";
-// ai
-var ai = "X";
+// var origBoard = ["O",1 ,"X","X",4 ,"X", 6 ,"O","O"];
+var origBoard = Array.from(Array(9).keys());
+// console.log(origBoard);
+var human = "O";        //human
+var ai = "X";           
 
 
 // keep track of function calls
 var fc = 0;
 
 // finding the ultimate play on the game that favors the computer
-var bestSpot = minimax(origBoard, ai);
+
 
 //loging the results
-console.log("index: " + bestSpot.index);
+// console.log("index: " + bestSpot.index);
 console.log("function calls: " + fc);
+
+// winning combinations using the board indexies for instace the first win could be 3 xes in a row
+function winning(board, player){
+    if (
+           (board[0] == player && board[1] == player && board[2] == player) ||
+           (board[3] == player && board[4] == player && board[5] == player) ||
+           (board[6] == player && board[7] == player && board[8] == player) ||
+           (board[0] == player && board[3] == player && board[6] == player) ||
+           (board[1] == player && board[4] == player && board[7] == player) ||
+           (board[2] == player && board[5] == player && board[8] == player) ||
+           (board[0] == player && board[4] == player && board[8] == player) ||
+           (board[2] == player && board[4] == player && board[6] == player)
+           ) {
+           return true;
+       } else {
+           return false;
+       }
+   }
+   // returns the available spots on the board
+   function emptyBlocks(board){
+    return  board.filter(val => val != "O" && val != "X");
+  }
 
 // the main minimax function
 function minimax(newBoard, player){
@@ -266,28 +193,19 @@ function minimax(newBoard, player){
   return moves[bestMove];
 }
 
-// returns the available spots on the board
-function emptyBlocks(board){
-  return  board.filter(val => val != "O" && val != "X");
-}
+$("td").on("click", function(){
+   $(this).text("O").effect("bounce", "slow");
+   origBoard[$(this).attr("id")] = "O";
+   console.log(origBoard);
+   var bestSpot = minimax(origBoard, ai);
+   $("#" + bestSpot.index).text("X").effect("bounce", "slow");
+   origBoard[bestSpot.index] = "X";
+   console.log(bestSpot);
 
-// winning combinations using the board indexies for instace the first win could be 3 xes in a row
-function winning(board, player){
- if (
-        (board[0] == player && board[1] == player && board[2] == player) ||
-        (board[3] == player && board[4] == player && board[5] == player) ||
-        (board[6] == player && board[7] == player && board[8] == player) ||
-        (board[0] == player && board[3] == player && board[6] == player) ||
-        (board[1] == player && board[4] == player && board[7] == player) ||
-        (board[2] == player && board[5] == player && board[8] == player) ||
-        (board[0] == player && board[4] == player && board[8] == player) ||
-        (board[2] == player && board[4] == player && board[6] == player)
-        ) {
-        return true;
-    } else {
-        return false;
-    }
-}
+});
+
+
+
 
 
 
