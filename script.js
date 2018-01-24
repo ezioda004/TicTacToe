@@ -1,81 +1,4 @@
-// $(document).ready(function(){
-//     // console.log($(".corner").length);
-
-    
-   
-//     // $(".corner:eq(" + x + ")").text("X").effect( "bounce", "slow" );
-
-//     // $("td").on("click", function(){
-//     //     // alert("test");
-//     //     $(this).text("O").effect("bounce", "slow");
-//     //     console.log($(this).attr("id"));
-//     // });
-//     let turn = 1;
-//     let huPlayers;
-//     let whoGoesFirst = Math.floor(Math.random() * 2); // Chooses who goes first
-    
-//     function AILogic(){
-        
-//         if (whoGoesFirst){
-//             console.log("Players goes first");
-    
-    
-//         }
-//         else {
-//             console.log("AI goes first");
-//         //     huPlayers = 0;
-//         //     console.log(i, $(".corner").length);
-//         //     for (var i = 0; i < $(".corner").length; i++){
-//         //         if ($(".corner").text() === ""){
-//         //         console.log("present");
-//         //         huPlayers+=1;
-//         //     }
-//         // }
-//         console.log(emptyBlocks);
-            
-//             if (turn == 1){
-//                 let x = Math.floor(Math.random()*($(".corner").length));
-//                 $(".corner:eq(" + x + ")").text("X").effect( "bounce", "slow" );
-//             }
-//             else if (turn == 2){
-//                 alert("2nd turn ai")
-//                 // console.log($("5").text());
-//                 if ($("5").text() == ""){
-
-//                 }
-//                 let x = Math.floor(Math.random()*($(".corner").length));
-//                 $(".corner:eq(" + x + ")").text("X").effect( "bounce", "slow" );
-//             }
-//         }
-//     }
-//     AILogic();
-
-//     $("td").on("click", function(){
-//         if (whoGoesFirst == 0){
-//             if (turn == 1){
-//                 // let x = Math.floor(Math.random()*($(".corner").length));
-               
-//                 $(this).text("O").effect("bounce", "slow");
-//                 // console.log($(this).attr("id"));
-//                 // var clickedCenter = $(this).attr("id");
-//                 turn++;
-//                 AILogic();
-//             }
-//             else if (turn == 2){
-//                 let x = Math.floor(Math.random()*($(".corner").length));
-//                 $(this).text("O").effect("bounce", "slow");
-//                 alert("works");
-//                 turn++;
-                
-//             }
-//         }
-//     });
-// });
-
-
-
 //Trying minimax algorithm
-
 $(document).ready(function(){
     // console.log(Array.from(8));
     // var arr =  Array.from(Array(9).keys(), n => ++n);
@@ -83,7 +6,8 @@ $(document).ready(function(){
 var origBoard = Array.from(Array(9).keys());
 // console.log(origBoard);
 var human = "O";        //human
-var ai = "X";           
+var ai = "X";
+var first;           
 
 
 // keep track of function calls
@@ -193,16 +117,43 @@ function minimax(newBoard, player){
   return moves[bestMove];
 }
 
-$("td").on("click", function(){
-   $(this).text("O").effect("bounce", "slow");
-   origBoard[$(this).attr("id")] = "O";
-   console.log(origBoard);
-   var bestSpot = minimax(origBoard, ai);
-   $("#" + bestSpot.index).text("X").effect("bounce", "slow");
-   origBoard[bestSpot.index] = "X";
-   console.log(bestSpot);
+// If human goes first.
 
-});
+function whoGoesFirst(){
+    first = Math.floor(Math.random() * 2);
+    console.log(first);
+}
+whoGoesFirst();
+
+
+if (first){                     //AI goes first
+    $("td").on("click", function(){
+        $(this).text("O").effect("bounce", "slow");
+        origBoard[$(this).attr("id")] = "O";
+        console.log(origBoard);
+        var bestSpot = minimax(origBoard, ai);
+        $("#" + bestSpot.index).text("X").effect("bounce", "slow");
+        origBoard[bestSpot.index] = "X";
+        console.log(bestSpot);
+     
+     });
+}
+else {                          //Human goes first
+    var bestSpot = minimax(origBoard, ai);
+    console.log(bestSpot);
+    $("#" + bestSpot.index).text("X").effect("bounce", "slow");
+    origBoard[bestSpot.index] = "X";
+    $("td").on("click", function(){
+       
+        $(this).text("O").effect("bounce", "slow");
+        origBoard[$(this).attr("id")] = "O";
+        var bestSpot = minimax(origBoard, ai);
+        console.log(bestSpot);
+        $("#" + bestSpot.index).text("X").effect("bounce", "slow");
+        origBoard[bestSpot.index] = "X";
+     });
+}
+//if AI goes first
 
 
 
