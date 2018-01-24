@@ -1,39 +1,104 @@
 body {
-    background: wheat;
+    background: #B29AB3;
     margin: 0px;
-    color: black;
+    color: white;
     font-family: 'Roboto Mono', monospace;
 }
 h1 {
     text-align: center;
-    font-size: 50px;
+    font-size: 55px;
+    text-shadow: 0px 2px 10px #8B1393,
+                 0px 2px 20px #8B1393,
+                 0px 2px 30px #8B1393,
+                 0px 2px 40px #8B1393;
 }
-h3 {
-    text-align: center;
-    font-size: 25px;
-}
+
 #mode {
     display: flex;
-    border: 2px black solid;
+    /* border: 2px black solid; */
     width: 400px;
-    height: 400px;
+    height: 350px;
     margin: 100px auto;
     flex-flow: row wrap;
     justify-content: space-around;
+    background: whitesmoke;
+    color: #67156D;
+    border-radius: 5%;
+}
+#mode h3 {
+    text-align: center;
+    font-size: 25px;
+    position: relative;
+    top: 30px;
+    flex: 1 1 100%;
 }
 span {
     display: inline-block;
     flex: 1 1 100%;
 }
-h3 {
-    flex: 1 1 100%;
-}
-a {
-    border: 2px black solid;
+#mode a {
+    /* border: 2px black solid; */
+    border-radius: 5%;
+    background: #B29AB3;
+    color: white;
     text-align: center;
+    flex: 0 1 40%;
     display: flex;
     flex-flow: row wrap;
     justify-content: center;
+    margin-bottom: 20px;
+    transition: background 0.5s;
+}
+a:link {
+    text-decoration: none;
+}
+#mode a:hover {
+    background: #8D5391;
+}
+svg {
+    margin-top: 20px;
+}
+#pickSide {
+    display: none;
+    /* visibility: hidden; */
+    /* border: 2px black solid; */
+    width: 300px;
+    height: 250px;
+    margin: 100px auto;
+    flex-flow: row wrap;
+    justify-content: center;
+    background: whitesmoke;
+    color: #67156D;
+    border-radius: 5%;
+}
+#pickSide h3{
+    text-align: center;
+    font-size: 32px;
+    position: relative;
+    top: 20px;
+    flex: 1 1 100%;
+    margin-bottom: 0;
+}
+#pickSide a {
+    /* border: 2px black solid; */
+    border-radius: 5%;
+    /* background: #B29AB3; */
+    cursor: default;
+    color: #B29AB3;
+    text-align: center;
+    flex: 0 1 40%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    /* margin-bottom: 20px; */
+    
+}
+#pickSide svg {
+    cursor: pointer;
+    transition: color 0.5s;
+}
+#pickSide svg:hover {
+    color: #67156D;
 }
 #game {
     display: none;
@@ -55,4 +120,7 @@ td {
 .top {
     border-top: 0px;
     border-bottom: 0px;
+}
+.flex {
+    display: flex;
 }
