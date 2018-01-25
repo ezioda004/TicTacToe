@@ -6,7 +6,9 @@ $(document).ready(function(){
 var human;
 var ai;
 var versusAI;
-
+var humanSymbol;
+var aiSymbol;
+   
 
 $("#vsAI").on("click", function(e){
     e.preventDefault();
@@ -28,7 +30,9 @@ $("#vsP").on("click", function(e){
 $("#pickSide a:nth-of-type(1)").on("click", function(e){
     e.preventDefault();
     human = "X"
+    humanSymbol = '<i class="fas fa-times fa-3x"></i>'
     ai = "O"
+    aiSymbol = '<i class="far fa-circle fa-3x"></i>';
     $("#pickSide").fadeOut(500, function(){
         $("#game").fadeIn(500);
     });
@@ -40,7 +44,9 @@ $("#pickSide a:nth-of-type(1)").on("click", function(e){
 $("#pickSide a:nth-of-type(2)").on("click", function(e){
     e.preventDefault();
     human = "O"
+    humanSymbol = '<i class="far fa-circle fa-3x"></i>';
     ai = "X"
+    aiSymbol = '<i class="fas fa-times fa-3x"></i>';
     $("#pickSide").fadeOut(500, function(){
         $("#game").fadeIn(500);
     });
@@ -173,32 +179,94 @@ function game(){
     whoGoesFirst();
     
     
-    if (first){                     //AI goes first
+    if (first){                     //Human goes first
         $("td").on("click", function(){
-            $(this).text(human).effect("bounce", "slow");
+            $(this).find("span").hide().html(humanSymbol).fadeIn("slow");
+            $(this).off("click");
             origBoard[$(this).attr("id")] = human;
-            console.log(origBoard);
             var bestSpot = minimax(origBoard, ai);
-            $("#" + bestSpot.index).text(ai).effect("bounce", "slow");
             origBoard[bestSpot.index] = ai;
+            setTimeout(()=>{
+                $("#" + bestSpot.index).find("span").hide().html(aiSymbol).fadeIn("slow");
+                $("#" + bestSpot.index).off("click");
+                if (bestSpot.score > 0){
+                    var winArray = [[origBoard[0], origBoard[1], origBoard[2]],
+                                    [origBoard[3], origBoard[4], origBoard[5]],
+                                    [origBoard[6], origBoard[7], origBoard[8]],
+                                    [origBoard[0], origBoard[3], origBoard[6]],
+                                    [origBoard[1] ,origBoard[4], origBoard[7]],
+                                    [origBoard[2] ,origBoard[5], origBoard[8]],
+                                    [origBoard[0] ,origBoard[4], origBoard[8]],
+                                    [origBoard[2] ,origBoard[4], origBoard[6]]];
+                    // var winspots = winArray.filter(function(val){
+                    //     var temp = val[0];
+                    //     console.log(val, temp);
+                    // });
+                    console.log(winArray);
+                    // console.log(winspots);
+                    console.log("AI WON");
+                    
+                }
+            }, 1000)
+           
+            
             console.log(bestSpot);
+            
          
          });
     }
-    else {                          //Human goes first
+    else {                          //AI goes first
         var bestSpot = minimax(origBoard, ai);
         console.log(bestSpot);
-        $("#" + bestSpot.index).text(ai).effect("bounce", "slow");
+        var toDisable = ("#" + bestSpot.index);
+        $("#" + bestSpot.index).find("span").hide().html(aiSymbol).fadeIn("slow");
+        $("#" + bestSpot.index).attr("disabled", "true");
         origBoard[bestSpot.index] = ai;
-        $("td").on("click", function(){
-           
-            $(this).text(human).effect("bounce", "slow");
+        $("td").not(toDisable).on("click", function(e){
+            if ($(e.target).is(toDisable)){
+                e.preventDefault();
+                return;
+            }
+            $(this).find("span").hide().html(humanSymbol).fadeIn("slow");
+            $(this).off("click");
             origBoard[$(this).attr("id")] = human;
             var bestSpot = minimax(origBoard, ai);
             console.log(bestSpot);
-            $("#" + bestSpot.index).text(ai).effect("bounce", "slow");
-            origBoard[bestSpot.index] = ai;
-         });
+            
+            setTimeout(()=>{
+                $("#" + bestSpot.index).find("span").hide().html(aiSymbol).fadeIn("slow");
+                $("#" + bestSpot.index).off("click");
+                origBoard[bestSpot.index] = ai;
+                if (bestSpot.score > 0){
+                    var winArray = [[origBoard[0], origBoard[1], origBoard[2]],
+                                    [origBoard[3], origBoard[4], origBoard[5]],
+                                    [origBoard[6], origBoard[7], origBoard[8]],
+                                    [origBoard[0], origBoard[3], origBoard[6]],
+                                    [origBoard[1] ,origBoard[4], origBoard[7]],
+                                    [origBoard[2] ,origBoard[5], origBoard[8]],
+                                    [origBoard[0] ,origBoard[4], origBoard[8]],
+                                    [origBoard[2] ,origBoard[4], origBoard[6]]];
+                    
+                    // var winspots = winArray.filter(function(val){
+                    //     var temp = val[0];
+                    //     val.forEach(function(b, i){
+                    //         if(temp === val[i]){
+                    //         }
+                    //         else {
+                    //             return false;
+                    //         }
+                    //     });
+                    //     return true;
+                    // });
+                    // console.log(winArray);
+                    // console.log(winspots);
+                    console.log("AI WON");
+                }
+            }, 1000);
+            
+            
+            
+        });
     }
     //if AI goes first
     
