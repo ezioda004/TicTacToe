@@ -101,7 +101,7 @@ svg {
     color: #67156D;
 }
 #game {
-    display: block;
+    display: none;
     border: 2px black solid;
     width: 500px;
     height: 500px;
@@ -137,4 +137,13 @@ td {
 }
 .flex {
     display: flex;
+}
+#win, #tie, #lose {
+    width: 500px;
+    height: 500px;
+    margin: 0 auto;
+    background: whitesmoke;
+    color: #67156D;
+    font-size: 40px;
+    display: block;
 }

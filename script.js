@@ -8,6 +8,7 @@ var ai;
 var versusAI;
 var humanSymbol;
 var aiSymbol;
+var isGameFinished = false;
    
 
 $("#vsAI").on("click", function(e){
@@ -34,7 +35,7 @@ $("#pickSide a:nth-of-type(1)").on("click", function(e){
     ai = "O"
     aiSymbol = '<i class="far fa-circle fa-3x"></i>';
     $("#pickSide").fadeOut(500, function(){
-        $("#game").fadeIn(500);
+        $("#game").fadeIn(500).css("display", "block");
     });
     if (versusAI){
         game();
@@ -48,7 +49,7 @@ $("#pickSide a:nth-of-type(2)").on("click", function(e){
     ai = "X"
     aiSymbol = '<i class="fas fa-times fa-3x"></i>';
     $("#pickSide").fadeOut(500, function(){
-        $("#game").fadeIn(500);
+        $("#game").fadeIn(500).css("display", "block");
     });
     if (versusAI){
         game();
@@ -56,7 +57,12 @@ $("#pickSide a:nth-of-type(2)").on("click", function(e){
 });
 
 function game(){
+    
     var origBoard = Array.from(Array(9).keys());
+    for (let j = 0; j < $("td").length; j++){
+        $("td span").html("");
+    }
+    $("td").off("click");
     // console.log(origBoard);
     // var human = "O";        //human
     // var ai = "X";
@@ -179,38 +185,68 @@ function game(){
     whoGoesFirst();
     
     
+
+
     if (first){                     //Human goes first
         $("td").on("click", function(){
             $(this).find("span").hide().html(humanSymbol).fadeIn("slow");
             $(this).off("click");
             origBoard[$(this).attr("id")] = human;
-            var bestSpot = minimax(origBoard, ai);
+            let bestSpot = minimax(origBoard, ai);
             origBoard[bestSpot.index] = ai;
             setTimeout(()=>{
                 $("#" + bestSpot.index).find("span").hide().html(aiSymbol).fadeIn("slow");
                 $("#" + bestSpot.index).off("click");
-                if (bestSpot.score > 0){
-                    var winArray = [[origBoard[0], origBoard[1], origBoard[2]],
-                                    [origBoard[3], origBoard[4], origBoard[5]],
-                                    [origBoard[6], origBoard[7], origBoard[8]],
-                                    [origBoard[0], origBoard[3], origBoard[6]],
-                                    [origBoard[1] ,origBoard[4], origBoard[7]],
-                                    [origBoard[2] ,origBoard[5], origBoard[8]],
-                                    [origBoard[0] ,origBoard[4], origBoard[8]],
-                                    [origBoard[2] ,origBoard[4], origBoard[6]]];
-                    // var winspots = winArray.filter(function(val){
-                    //     var temp = val[0];
-                    //     console.log(val, temp);
-                    // });
-                    console.log(winArray);
-                    // console.log(winspots);
-                    console.log("AI WON");
+                var winArray = [[origBoard[0], origBoard[1], origBoard[2]],
+                    [origBoard[3], origBoard[4], origBoard[5]],
+                    [origBoard[6], origBoard[7], origBoard[8]],
+                    [origBoard[0], origBoard[3], origBoard[6]],
+                    [origBoard[1] ,origBoard[4], origBoard[7]],
+                    [origBoard[2] ,origBoard[5], origBoard[8]],
+                    [origBoard[0] ,origBoard[4], origBoard[8]],
+                    [origBoard[2] ,origBoard[4], origBoard[6]]];
+                var checkArr = winArray.filter((val)=>{
+                    return val[0] === val[1] && val[0] === val[2];
+                });
+                if (checkArr.length !==0){
                     
+
+                    var winIndex = [[0, 1, 2],[3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
+                    var winspots = []
+                    winArray.forEach(function(val, i){
+                        if (val[0] === val[1] && val[0] === val[2]){
+                                    winspots.push(i);
+                                }
+                    });
+                    console.log("AI WINS")
+                    console.log(winIndex[winspots[0]]);
+                    setTimeout(function(){
+                        for (let i = 0; i<winIndex[winspots[0]].length; i++){
+                            $("#"+winIndex[winspots[0]][i]).find("span").fadeOut("slow");
+                        }
+                        isGameFinished = true;
+                        // setTimeout(() => {
+                        //     game();
+                        // }, 500);
+                        setTimeout(function(){
+                            
+                            $("#game").fadeOut("100", function(){
+                                $("#win").fadeIn("1000", function(){
+                                    game();
+                                });
+                                $("#win").fadeOut("1000", function(){
+                                    $("#game").fadeIn("100", function(){
+                                        
+                                    });
+                                }); 
+                            });
+                        }, 100)
+                        
+                    }, 200);
+                    
+                                    
                 }
             }, 1000)
-           
-            
-            console.log(bestSpot);
             
          
          });
@@ -220,7 +256,6 @@ function game(){
         console.log(bestSpot);
         var toDisable = ("#" + bestSpot.index);
         $("#" + bestSpot.index).find("span").hide().html(aiSymbol).fadeIn("slow");
-        $("#" + bestSpot.index).attr("disabled", "true");
         origBoard[bestSpot.index] = ai;
         $("td").not(toDisable).on("click", function(e){
             if ($(e.target).is(toDisable)){
@@ -230,37 +265,61 @@ function game(){
             $(this).find("span").hide().html(humanSymbol).fadeIn("slow");
             $(this).off("click");
             origBoard[$(this).attr("id")] = human;
-            var bestSpot = minimax(origBoard, ai);
+            let bestSpot = minimax(origBoard, ai);
             console.log(bestSpot);
             
             setTimeout(()=>{
                 $("#" + bestSpot.index).find("span").hide().html(aiSymbol).fadeIn("slow");
                 $("#" + bestSpot.index).off("click");
                 origBoard[bestSpot.index] = ai;
-                if (bestSpot.score > 0){
-                    var winArray = [[origBoard[0], origBoard[1], origBoard[2]],
-                                    [origBoard[3], origBoard[4], origBoard[5]],
-                                    [origBoard[6], origBoard[7], origBoard[8]],
-                                    [origBoard[0], origBoard[3], origBoard[6]],
-                                    [origBoard[1] ,origBoard[4], origBoard[7]],
-                                    [origBoard[2] ,origBoard[5], origBoard[8]],
-                                    [origBoard[0] ,origBoard[4], origBoard[8]],
-                                    [origBoard[2] ,origBoard[4], origBoard[6]]];
+                var winArray = [[origBoard[0], origBoard[1], origBoard[2]],
+                    [origBoard[3], origBoard[4], origBoard[5]],
+                    [origBoard[6], origBoard[7], origBoard[8]],
+                    [origBoard[0], origBoard[3], origBoard[6]],
+                    [origBoard[1] ,origBoard[4], origBoard[7]],
+                    [origBoard[2] ,origBoard[5], origBoard[8]],
+                    [origBoard[0] ,origBoard[4], origBoard[8]],
+                    [origBoard[2] ,origBoard[4], origBoard[6]]];
+                var checkArr = winArray.filter((val)=>{
+                    return val[0] === val[1] && val[0] === val[2];
+                });
+                if (checkArr.length !==0){
+
                     
-                    // var winspots = winArray.filter(function(val){
-                    //     var temp = val[0];
-                    //     val.forEach(function(b, i){
-                    //         if(temp === val[i]){
-                    //         }
-                    //         else {
-                    //             return false;
-                    //         }
-                    //     });
-                    //     return true;
-                    // });
-                    // console.log(winArray);
-                    // console.log(winspots);
-                    console.log("AI WON");
+                    var winIndex = [[0, 1, 2],[3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
+                    var winspots = []
+                    winArray.forEach(function(val, i){
+                        if (val[0] === val[1] && val[0] === val[2]){
+                                    winspots.push(i);
+                                }
+                    });
+                    console.log(winIndex[winspots[0]]);
+                    console.log("AI WINS")
+                    setTimeout(function(){
+                        for (let i = 0; i<winIndex[winspots[0]].length; i++){
+                            $("#"+winIndex[winspots[0]][i]).find("span").fadeOut("slow");
+                        }
+                        isGameFinished = true;
+                        // setTimeout(() => {
+                        //     game();
+                        // }, 1000);
+                        setTimeout(function(){
+                            
+                            $("#game").fadeOut("100", function(){
+                                $("#win").fadeIn("1000", function(){
+                                    game();
+                                });
+                                $("#win").fadeOut("1000", function(){
+                                    $("#game").fadeIn("100", function(){
+                                        
+                                    });
+                                }); 
+                            });
+                            
+                        }, 100)
+                        // game(); 
+                    }, 200);
+                    
                 }
             }, 1000);
             
@@ -271,6 +330,10 @@ function game(){
     //if AI goes first
     
 }
+// if (isGameFinished) {
+//     isGameFinished = false;
+//     game();
+// }
 
 
 
