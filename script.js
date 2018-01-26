@@ -1,17 +1,15 @@
-//Trying minimax algorithm
 $(document).ready(function(){
-    // console.log(Array.from(8));
-    // var arr =  Array.from(Array(9).keys(), n => ++n);
-// var origBoard = ["O",1 ,"X","X",4 ,"X", 6 ,"O","O"];
 var human;
 var ai;
 var versusAI;
 var humanSymbol;
 var aiSymbol;
+var humanSymbol2;
 var isGameFinished = false;
 var aiWins = 0;
 var p1Wins = 0;
 var p2Wins = 0;
+var firstP = true;
    
 
 $("#vsAI").on("click", function(e){
@@ -37,11 +35,15 @@ $("#pickSide a:nth-of-type(1)").on("click", function(e){
     humanSymbol = '<i class="fas fa-times fa-3x"></i>'
     ai = "O"
     aiSymbol = '<i class="far fa-circle fa-3x"></i>';
+    humanSymbol2 = aiSymbol;
     $("#pickSide").fadeOut(500, function(){
         $("#game").fadeIn(500).css("display", "block");
     });
     if (versusAI){
-        game();
+        gameAI();
+    }
+    else{
+        gamePlayer();
     }
     
 });
@@ -51,36 +53,39 @@ $("#pickSide a:nth-of-type(2)").on("click", function(e){
     humanSymbol = '<i class="far fa-circle fa-3x"></i>';
     ai = "X"
     aiSymbol = '<i class="fas fa-times fa-3x"></i>';
+    humanSymbol2 = aiSymbol;
     $("#pickSide").fadeOut(500, function(){
         $("#game").fadeIn(500).css("display", "block");
     });
     if (versusAI){
-        game();
+        gameAI();
+    }
+    else {
+        gamePlayer();
     }
 });
 
-function game(){
-    
+$("#reset").on("click", function(e){
+    e.preventDefault();
+    $("#game").fadeOut(500, function(){
+        $("#mode").fadeIn(500).css("display", "flex");
+    });
+    versusAI = true;
+    aiWins = 0;
+    p1Wins = 0;
+    p2Wins = 0;
+    $("#xWin").text(aiWins);
+    $("#oWin").text(aiWins);
+});
+
+function gameAI(){
+    var first;
     var origBoard = Array.from(Array(9).keys());
     for (let j = 0; j < $("td").length; j++){
         $("td span").html("");
     }
-    $("td").off("click");
-    // console.log(origBoard);
-    // var human = "O";        //human
-    // var ai = "X";
-    var first;           
-    
-    
-    // keep track of function calls
-    var fc = 0;
-    
+    $("td").off("click");       
     // finding the ultimate play on the game that favors the computer
-    
-    
-    //loging the results
-    // console.log("index: " + bestSpot.index);
-    console.log("function calls: " + fc);
     
     // winning combinations using the board indexies for instace the first win could be 3 xes in a row
     function winning(board, player){
@@ -106,9 +111,6 @@ function game(){
     
     // the main minimax function
     function minimax(newBoard, player){
-      
-      //keep track of function calls;
-      fc++;
     
       //available spots
       var availSpots = emptyBlocks(newBoard);
@@ -237,19 +239,21 @@ function game(){
                         }
                         isGameFinished = true;
                         // setTimeout(() => {
-                        //     game();
+                        //     gameAI();
                         // }, 500);
                         setTimeout(function(){
                             
                             $("#game").fadeOut("500", function(){
                                 $("#win").fadeIn("1000", function(){
-                                    game();
+                                    gameAI();
                                 }).css("display", "flex");
-                                $("#win").fadeOut("500", function(){
-                                    $("#game").fadeIn("1000", function(){
-                                        
-                                    });
-                                }); 
+                                setTimeout(function(){
+                                    $("#win").fadeOut("500", function(){
+                                        $("#game").fadeIn("1000", function(){
+                                            
+                                        });
+                                    }); 
+                                }, 500);
                             });
                         }, 500)
                         
@@ -263,13 +267,16 @@ function game(){
                             
                         $("#game").fadeOut("500", function(){
                             $("#tie").fadeIn("1000", function(){
-                                game();
+                                gameAI();
                             }).css("display", "flex");
-                            $("#tie").fadeOut("500", function(){
-                                $("#game").fadeIn("1000", function(){
-                                    
-                                });
-                            }); 
+                            setTimeout(function(){
+                                $("#tie").fadeOut("500", function(){
+                                    $("#game").fadeIn("1000", function(){
+                                        
+                                    });
+                                }); 
+                            }, 500);
+                            
                         });
                     }, 500)
                 }
@@ -336,23 +343,25 @@ function game(){
                         }
                         isGameFinished = true;
                         // setTimeout(() => {
-                        //     game();
+                        //     gameAI();
                         // }, 1000);
                         setTimeout(function(){
                             
                             $("#game").fadeOut("500", function(){
                                 $("#win").fadeIn("1000", function(){
-                                    game();
+                                    gameAI();
                                 }).css("display", "flex");
-                                $("#win").fadeOut("500", function(){
-                                    $("#game").fadeIn("1000", function(){
-                                        
-                                    });
-                                }); 
+                                setTimeout(function(){
+                                    $("#win").fadeOut("500", function(){
+                                        $("#game").fadeIn("1000", function(){
+                                            
+                                        });
+                                    }); 
+                                }, 500);
+                                
                             });
                             
                         }, 500)
-                        // game(); 
                     }, 200);
                     
                 }
@@ -361,13 +370,15 @@ function game(){
                             
                         $("#game").fadeOut("500", function(){
                             $("#tie").fadeIn("1000", function(){
-                                game();
+                                gamePlayer();
                             }).css("display", "flex");
-                            $("#tie").fadeOut("500", function(){
-                                $("#game").fadeIn("1000", function(){
-                                    
-                                });
-                            }); 
+                            setTimeout(function(){
+                                $("#tie").fadeOut("500", function(){
+                                    $("#game").fadeIn("1000", function(){
+                                        
+                                    });
+                                }); 
+                            }, 500);
                         });
                     }, 500)
                 }
@@ -376,20 +387,191 @@ function game(){
             
             
         });
-    }
-    //if AI goes first
-    
+    }   
 }
-// if (isGameFinished) {
-//     isGameFinished = false;
-//     game();
-// }
 
+function gamePlayer(){
+    firstP = true;
+    function emptyBlocks(board){
+        return  board.filter(val => val != "O" && val != "X");
+      }
+    var origBoard = Array.from(Array(9).keys());
+    for (let j = 0; j < $("td").length; j++){
+        $("td span").html("");
+    }
+    $("td").off("click");
+    $("td").on("click", function(){
+        if (firstP){
+            $(this).find("span").hide().html(humanSymbol).fadeIn("slow");
+            $(this).off("click");
+            origBoard[$(this).attr("id")] = human;
+            firstP = false;
+            var winArray = [[origBoard[0], origBoard[1], origBoard[2]],
+                    [origBoard[3], origBoard[4], origBoard[5]],
+                    [origBoard[6], origBoard[7], origBoard[8]],
+                    [origBoard[0], origBoard[3], origBoard[6]],
+                    [origBoard[1] ,origBoard[4], origBoard[7]],
+                    [origBoard[2] ,origBoard[5], origBoard[8]],
+                    [origBoard[0] ,origBoard[4], origBoard[8]],
+                    [origBoard[2] ,origBoard[4], origBoard[6]]];
+            var checkArr = winArray.filter((val)=>{
+                return val[0] === val[1] && val[0] === val[2];
+            });
+            var y = emptyBlocks(origBoard);
+            setTimeout(function(){
+                if(checkArr.length !== 0){
+                    var char = checkArr[0][0];
+                    if (char=== "X"){
+                        let temp = Number($("#xWin").text());
+                        $("#xWin").text(temp+=1);
+                    }
+                    else {
+                        let temp = Number($("#oWin").text());
+                        $("#oWin").text(temp+=1);
+                    }
+                    var winIndex = [[0, 1, 2],[3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
+                    var winspots = []
+                    winArray.forEach(function(val, i){
+                        if (val[0] === val[1] && val[0] === val[2]){
+                                    winspots.push(i);
+                                }
+                    });
+                    setTimeout(function(){
+                        for (let i = 0; i<winIndex[winspots[0]].length; i++){
+                            $("#"+winIndex[winspots[0]][i]).find("span").fadeOut("slow");
+                        }
+                        setTimeout(function(){
+                            let toDisplay;
+                            if (char === "X"){
+                                toDisplay = "#displayXWon"
+                            }
+                            else {
+                                toDisplay = "#displayOWon"
+                            }
+                            $("#game").fadeOut("500", function(){
+                                $(toDisplay).fadeIn("1000", function(){
+                                    gamePlayer();
+                                }).css("display", "flex");
+                                setTimeout(function(){
+                                    $(toDisplay).fadeOut("500", function(){
+                                        $("#game").fadeIn("1000", function(){
+                                            
+                                        });
+                                    }); 
+                                }, 500);
+                                
+                            });
+                            
+                        }, 500)
+                        // gameAI(); 
+                    }, 200);
+                }
+                else if (y.length ===0){
+                    setTimeout(function(){
+                            
+                        $("#game").fadeOut("500", function(){
+                            $("#tie").fadeIn("1000", function(){
+                                gamePlayer();
+                            }).css("display", "flex");
+                            setTimeout(function(){
+                                $("#tie").fadeOut("500", function(){
+                                    $("#game").fadeIn("1000", function(){
+                                        
+                                    });
+                                }); 
+                            }, 500);
+                        });
+                    }, 500)
+                }
+            }, 200);
+            
+        }
+        else {
+            $(this).find("span").hide().html(humanSymbol2).fadeIn("slow");
+            origBoard[$(this).attr("id")] = ai;
+            $(this).off("click");
+            firstP = true;
+            console.log(origBoard);
+            var winArray = [[origBoard[0], origBoard[1], origBoard[2]],
+                    [origBoard[3], origBoard[4], origBoard[5]],
+                    [origBoard[6], origBoard[7], origBoard[8]],
+                    [origBoard[0], origBoard[3], origBoard[6]],
+                    [origBoard[1] ,origBoard[4], origBoard[7]],
+                    [origBoard[2] ,origBoard[5], origBoard[8]],
+                    [origBoard[0] ,origBoard[4], origBoard[8]],
+                    [origBoard[2] ,origBoard[4], origBoard[6]]];
+            var checkArr = winArray.filter((val)=>{
+                return val[0] === val[1] && val[0] === val[2];
+            });
+            var y = emptyBlocks(origBoard);
+            setTimeout(function(){
+                if(checkArr.length !== 0){
+                    var char = checkArr[0][0];
+                    if (char === "X"){
+                        let temp = Number($("#xWin").text());
+                        $("#xWin").text(temp+=1);
+                    }
+                    else {
+                        let temp = Number($("#oWin").text());
+                        $("#oWin").text(temp+=1);
+                    }
+                    
+                    var winIndex = [[0, 1, 2],[3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
+                    var winspots = []
+                    winArray.forEach(function(val, i){
+                        if (val[0] === val[1] && val[0] === val[2]){
+                                    winspots.push(i);
+                                }
+                    });
+                    setTimeout(function(){
+                        for (let i = 0; i<winIndex[winspots[0]].length; i++){
+                            $("#"+winIndex[winspots[0]][i]).find("span").fadeOut("slow");
+                        }
+                        setTimeout(function(){
+                            let toDisplay;
+                            if (char === "X"){
+                                toDisplay = "#displayXWon"
+                            }
+                            else {
+                                toDisplay = "#displayOWon"
+                            }
+                            $("#game").fadeOut("500", function(){
+                                $(toDisplay).fadeIn("1000", function(){
+                                    gamePlayer();
+                                }).css("display", "flex");
+                                setTimeout(function(){
+                                    $(toDisplay).fadeOut("500", function(){
+                                        $("#game").fadeIn("1000", function(){
+                                            
+                                        });
+                                    }); 
+                                }, 500);
+                                
+                            });
+                            
+                        }, 500)
+                    }, 200);
+                }
+                else if (y.length ===0){
+                    setTimeout(function(){
+                            
+                        $("#game").fadeOut("500", function(){
+                            $("#tie").fadeIn("1000", function(){
+                                gamePlayer();
+                            }).css("display", "flex");
+                            setTimeout(function(){
+                                $("#tie").fadeOut("500", function(){
+                                    $("#game").fadeIn("1000", function(){
+                                        
+                                    });
+                                }); 
+                            }, 500);
+                        });
+                    }, 500)
+                }
+            }, 200);
+        }
+    });
 
-
-
-
-
-
-
+}
 });

@@ -7,10 +7,13 @@ body {
 h1 {
     text-align: center;
     font-size: 55px;
-    text-shadow: 0px 2px 10px #8B1393,
+    /* text-shadow: 0px 2px 10px #8B1393,
                  0px 2px 20px #8B1393,
                  0px 2px 30px #8B1393,
-                 0px 2px 40px #8B1393;
+                 0px 2px 40px #8B1393; */
+}
+.letter {
+    color: #8D5391;
 }
 
 #mode {
@@ -24,6 +27,9 @@ h1 {
     background: whitesmoke;
     color: #67156D;
     border-radius: 5%;
+    /* box-shadow: 0px 2px 10px whitesmoke,
+                 0px 2px 20px whitesmoke,
+                 0px 2px 30px whitesmoke */
 }
 #mode h3 {
     text-align: center;
@@ -101,8 +107,8 @@ svg {
     color: #67156D;
 }
 #game {
-    display: block;
-    border: 2px black solid;
+    display: none;
+    border-radius: 5%;
     width: 500px;
     height: 500px;
     margin: 0 auto;
@@ -123,6 +129,7 @@ td {
     display: flex;
     flex-flow: row wrap;
     justify-content: space-around;
+    font-size: 30px;
 }
 .corner {
     border: none;
@@ -144,17 +151,21 @@ td {
     display: inline-block;
     margin: 0 auto;
 }
+#reset:hover{
+    color: #8D5391;
+}
 .flex {
     display: flex;
 }
-#win, #tie, #lose {
+#win, #tie, #displayXWon, #displayOWon {
     width: 500px;
     height: 500px;
     margin: 0 auto;
     background: whitesmoke;
-    color: #67156D;
+    color: #8D5391;
     font-size: 40px;
     display: none;
+    border-radius: 5%;
 }
 #win {
     /* display: flex; */
@@ -174,8 +185,25 @@ td {
     position: relative;
     top: 100px;
 }
+#tie {
+    background: #ABA1B9;
+}
 #tie div h2 {
     position: relative;
-    top: 200px;
+    top: 150px;
+}
+#displayXWon, #displayOWon {
+    text-align: center;
+    flex-flow: row nowrap;
+    background: #E5C5D0;
+}
+#displayXWon div, #displayOWon div {
+    flex: 0 1 100%;
+    
+}
+#displayXWon div h2, #displayOWon div h2 {
+    /* margin: 0 auto; */
+    position: relative;
+    top: 150px;
 }
 

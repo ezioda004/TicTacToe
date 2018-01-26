@@ -13,7 +13,7 @@
     <title>TicTacToe</title>
 </head>
 <body>
-    <h1>Tic Tac Toe</h1>
+    <h1><span class = "letter">T</span>ic T<span class = "letter">a</span>c <span class = "letter">T</span>oe</h1>
     <div id = "mode">
         <h3>Choose game mode</h3>
         <a href="#" id = "vsAI"><i class="fas fa-laptop fa-5x"></i><span> Vs AI</span></a>
@@ -26,8 +26,8 @@
     </div>
     <div id = "game">
         <div id = "score">
-            <div><i class = "fas fa-times fa-lg"></i> : <span id = "xWin">0</span></div>
-            <div><i class="far fa-circle fa-lg"></i> : <span id = "oWin">0</span></div>
+            <div><i class = "fas fa-times"></i> : <span id = "xWin">0</span></div>
+            <div><i class="far fa-circle"></i> : <span id = "oWin">0</span></div>
         </div>
         <table>
         <tr>
@@ -47,30 +47,30 @@
         </tr>
         </table>
         <a href="#" id = "reset">
-                <div >New <i class="fas fa-spin fa-sync"></i> Game</div>
+            <div >New <i class="fas fa-spin fa-sync"></i> Game</div>
         </a>
-        
     </div>
-    <div id = "lose">
-        <h2>You lost</h2>
+    <div id = "displayXWon">
+        <div>
+            <h2><i class = "fas fa-times"></i> Won</h2>
+        </div>
+    </div>
+    <div id = "displayOWon">
+        <div>
+            <h2><i class = "far fa-circle"></i> Won</h2>
+        </div>
     </div>
     <div id = "win">
         <div>
-            
             <h2>Computer  <i class="fas fa-trophy"></i></h2>
-
         </div>
-        
         <div>
-               <h2>You <i class="fas fa-frown"></i></h2>
+            <h2>You <i class="fas fa-frown"></i></h2>
         </div>
-        
     </div>
     <div id = "tie">
         <div><h2>
-            It's a <i class="fas fa-spin fa-exchange-alt"></i>
-
-            TIE!
+            It's a <i class="fas fa-spin fa-exchange-alt"></i> TIE!
         </h2></div>
     </div>
 </body>
