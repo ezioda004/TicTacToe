@@ -26,8 +26,8 @@
     </div>
     <div id = "game">
         <div id = "score">
-            <div><i class = "fas fa-times"></i> <span>Wins</span></div>
-            <div><i class="far fa-circle"></i> <span>Wins</span></div>
+            <div><i class = "fas fa-times fa-lg"></i> : <span id = "xWin">0</span></div>
+            <div><i class="far fa-circle fa-lg"></i> : <span id = "oWin">0</span></div>
         </div>
         <table>
         <tr>
@@ -46,17 +46,32 @@
             <td class = "corner" id = "8"><span></span></td>
         </tr>
         </table>
+        <a href="#" id = "reset">
+                <div >New <i class="fas fa-spin fa-sync"></i> Game</div>
+        </a>
+        
     </div>
     <div id = "lose">
         <h2>You lost</h2>
     </div>
     <div id = "win">
-        <h2>Computer won
-        </h2>
-        <h2>You lost</h2>
+        <div>
+            
+            <h2>Computer  <i class="fas fa-trophy"></i></h2>
+
+        </div>
+        
+        <div>
+               <h2>You <i class="fas fa-frown"></i></h2>
+        </div>
+        
     </div>
     <div id = "tie">
-        <h2>ITS A TIEE</h2>
+        <div><h2>
+            It's a <i class="fas fa-spin fa-exchange-alt"></i>
+
+            TIE!
+        </h2></div>
     </div>
 </body>
 </html>

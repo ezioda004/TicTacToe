@@ -101,7 +101,7 @@ svg {
     color: #67156D;
 }
 #game {
-    display: none;
+    display: block;
     border: 2px black solid;
     width: 500px;
     height: 500px;
@@ -135,6 +135,15 @@ td {
     border-top: 0px;
     border-bottom: 0px;
 }
+#reset {
+    text-align: center;
+    position: relative;
+    top: -40px;
+    left: 180PX;
+    width: 140px;
+    display: inline-block;
+    margin: 0 auto;
+}
 .flex {
     display: flex;
 }
@@ -145,5 +154,28 @@ td {
     background: whitesmoke;
     color: #67156D;
     font-size: 40px;
-    display: block;
+    display: none;
 }
+#win {
+    /* display: flex; */
+    flex-flow: row wrap;
+    justify-content: space-between;
+}
+.center {
+    text-align: center;
+}
+#win div {
+    /* margin: 100px 0; */
+    height: 50%;
+    flex: 1 1 100%;
+    text-align: center;
+}
+#win div:nth-of-type(1) h2 {
+    position: relative;
+    top: 100px;
+}
+#tie div h2 {
+    position: relative;
+    top: 200px;
+}
+

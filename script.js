@@ -9,6 +9,9 @@ var versusAI;
 var humanSymbol;
 var aiSymbol;
 var isGameFinished = false;
+var aiWins = 0;
+var p1Wins = 0;
+var p2Wins = 0;
    
 
 $("#vsAI").on("click", function(e){
@@ -208,9 +211,17 @@ function game(){
                 var checkArr = winArray.filter((val)=>{
                     return val[0] === val[1] && val[0] === val[2];
                 });
+                var y = emptyBlocks(origBoard);
+                console.log(y, "y");
                 if (checkArr.length !==0){
                     
-
+                    aiWins+=1;
+                    if (ai === "X"){
+                        $("#xWin").text(aiWins);
+                    }
+                    else {
+                        $("#oWin").text(aiWins);
+                    }
                     var winIndex = [[0, 1, 2],[3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
                     var winspots = []
                     winArray.forEach(function(val, i){
@@ -230,21 +241,37 @@ function game(){
                         // }, 500);
                         setTimeout(function(){
                             
-                            $("#game").fadeOut("100", function(){
+                            $("#game").fadeOut("500", function(){
                                 $("#win").fadeIn("1000", function(){
                                     game();
-                                });
-                                $("#win").fadeOut("1000", function(){
-                                    $("#game").fadeIn("100", function(){
+                                }).css("display", "flex");
+                                $("#win").fadeOut("500", function(){
+                                    $("#game").fadeIn("1000", function(){
                                         
                                     });
                                 }); 
                             });
-                        }, 100)
+                        }, 500)
                         
                     }, 200);
                     
                                     
+                }
+                else if (y.length ===0){
+
+                    setTimeout(function(){
+                            
+                        $("#game").fadeOut("500", function(){
+                            $("#tie").fadeIn("1000", function(){
+                                game();
+                            }).css("display", "flex");
+                            $("#tie").fadeOut("500", function(){
+                                $("#game").fadeIn("1000", function(){
+                                    
+                                });
+                            }); 
+                        });
+                    }, 500)
                 }
             }, 1000)
             
@@ -253,7 +280,7 @@ function game(){
     }
     else {                          //AI goes first
         var bestSpot = minimax(origBoard, ai);
-        console.log(bestSpot);
+        // console.log(bestSpot);
         var toDisable = ("#" + bestSpot.index);
         $("#" + bestSpot.index).find("span").hide().html(aiSymbol).fadeIn("slow");
         origBoard[bestSpot.index] = ai;
@@ -266,7 +293,7 @@ function game(){
             $(this).off("click");
             origBoard[$(this).attr("id")] = human;
             let bestSpot = minimax(origBoard, ai);
-            console.log(bestSpot);
+            // console.log(bestSpot);
             
             setTimeout(()=>{
                 $("#" + bestSpot.index).find("span").hide().html(aiSymbol).fadeIn("slow");
@@ -283,8 +310,16 @@ function game(){
                 var checkArr = winArray.filter((val)=>{
                     return val[0] === val[1] && val[0] === val[2];
                 });
+                var y = emptyBlocks(origBoard);
+                console.log(y, "y");
                 if (checkArr.length !==0){
-
+                    aiWins+=1;
+                    if (ai === "X"){
+                        $("#xWin").text(aiWins);
+                    }
+                    else {
+                        $("#oWin").text(aiWins);
+                    }
                     
                     var winIndex = [[0, 1, 2],[3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
                     var winspots = []
@@ -305,21 +340,36 @@ function game(){
                         // }, 1000);
                         setTimeout(function(){
                             
-                            $("#game").fadeOut("100", function(){
+                            $("#game").fadeOut("500", function(){
                                 $("#win").fadeIn("1000", function(){
                                     game();
-                                });
-                                $("#win").fadeOut("1000", function(){
-                                    $("#game").fadeIn("100", function(){
+                                }).css("display", "flex");
+                                $("#win").fadeOut("500", function(){
+                                    $("#game").fadeIn("1000", function(){
                                         
                                     });
                                 }); 
                             });
                             
-                        }, 100)
+                        }, 500)
                         // game(); 
                     }, 200);
                     
+                }
+                else if (y.length ===0){
+                    setTimeout(function(){
+                            
+                        $("#game").fadeOut("500", function(){
+                            $("#tie").fadeIn("1000", function(){
+                                game();
+                            }).css("display", "flex");
+                            $("#tie").fadeOut("500", function(){
+                                $("#game").fadeIn("1000", function(){
+                                    
+                                });
+                            }); 
+                        });
+                    }, 500)
                 }
             }, 1000);
             
