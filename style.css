@@ -7,10 +7,6 @@ body {
 h1 {
     text-align: center;
     font-size: 55px;
-    /* text-shadow: 0px 2px 10px #8B1393,
-                 0px 2px 20px #8B1393,
-                 0px 2px 30px #8B1393,
-                 0px 2px 40px #8B1393; */
 }
 .letter {
     color: #8D5391;
@@ -18,7 +14,6 @@ h1 {
 
 #mode {
     display: flex;
-    /* border: 2px black solid; */
     width: 400px;
     height: 350px;
     margin: 100px auto;
@@ -27,9 +22,6 @@ h1 {
     background: whitesmoke;
     color: #67156D;
     border-radius: 5%;
-    /* box-shadow: 0px 2px 10px whitesmoke,
-                 0px 2px 20px whitesmoke,
-                 0px 2px 30px whitesmoke */
 }
 #mode h3 {
     text-align: center;
@@ -150,6 +142,7 @@ td {
     width: 140px;
     display: inline-block;
     margin: 0 auto;
+    color: #B29AB3;
 }
 #reset:hover{
     color: #8D5391;
@@ -185,9 +178,9 @@ td {
     position: relative;
     top: 100px;
 }
-#tie {
+/* #tie {
     background: #ABA1B9;
-}
+} */
 #tie div h2 {
     position: relative;
     top: 150px;
@@ -195,7 +188,7 @@ td {
 #displayXWon, #displayOWon {
     text-align: center;
     flex-flow: row nowrap;
-    background: #E5C5D0;
+    /* background: #E5C5D0; */
 }
 #displayXWon div, #displayOWon div {
     flex: 0 1 100%;
